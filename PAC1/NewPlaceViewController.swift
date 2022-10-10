@@ -30,6 +30,19 @@ class NewPlaceViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         
         locationManager.requestWhenInUseAuthorization()
         
+        let borderColor = UIColor(red:204.0/255.0, green:204.0/255.0, blue:204.0/255.0, alpha:1.0)
+    
+        name.layer.borderWidth = 1.0
+        name.layer.cornerRadius = 5.0
+        name.layer.borderColor = borderColor.cgColor
+        
+        desc.layer.borderWidth = 1.0
+        desc.layer.cornerRadius = 5.0
+        desc.layer.borderColor = borderColor.cgColor
+        
+        image.layer.borderWidth = 1.0
+        image.layer.cornerRadius = 5.0
+        image.layer.borderColor = borderColor.cgColor
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selectImage(_:)))
         image.isUserInteractionEnabled = true
         image.addGestureRecognizer(tapGestureRecognizer)

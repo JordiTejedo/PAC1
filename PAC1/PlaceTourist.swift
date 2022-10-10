@@ -20,4 +20,8 @@ class PlaceTourist: Place {
         super.init(type:.TouristicPlace,name:name,description:description,image_in:image_in)
         self.discount_tourist = discount_tourist
     }
+    
+    required convenience init(from decoder: Decoder) throws {
+        fatalError("init(from:) has not been implemented")
+    }
 }

@@ -30,15 +30,25 @@ class PlaceDetailsViewController: UIViewController, UIPickerViewDelegate, UIPick
         
         //let place = ManagerPlaces.Shared().getItemAt(index: index)
         let place = ManagerPlaces.Shared().getItemBy(id: id)
-        name.text = place.name
-        type.selectRow(PlacesTypes.allCases.firstIndex(where: {$0 == place.type})!, inComponent: 0, animated: true)
-        desc.text = place.description
-        image.image = UIImage(data: place.image!, scale: 1)
-        /*desc.layer.borderWidth = 1.0
-        desc.layer.cornerRadius = 5.0
-        let borderColor = UIColor(red:204.0/255.0, green:204.0/255.0, blue:204.0/255.0, alpha:1.0)
-        desc.layer.borderColor = name.layer.borderColor// borderColor.cgColor*/
         
+        let borderColor = UIColor(red:204.0/255.0, green:204.0/255.0, blue:204.0/255.0, alpha:1.0)
+    
+        name.text = place.name
+        name.layer.borderWidth = 1.0
+        name.layer.cornerRadius = 5.0
+        name.layer.borderColor = borderColor.cgColor
+        
+        type.selectRow(PlacesTypes.allCases.firstIndex(where: {$0 == place.type})!, inComponent: 0, animated: true)
+        
+        desc.text = place.description
+        desc.layer.borderWidth = 1.0
+        desc.layer.cornerRadius = 5.0
+        desc.layer.borderColor = borderColor.cgColor
+        
+        image.image = UIImage(data: place.image!, scale: 1)
+        image.layer.borderWidth = 1.0
+        image.layer.cornerRadius = 5.0
+        image.layer.borderColor = borderColor.cgColor
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selectImage(_:)))
         image.isUserInteractionEnabled = true
         image.addGestureRecognizer(tapGestureRecognizer)

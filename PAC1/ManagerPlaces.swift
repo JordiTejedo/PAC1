@@ -52,6 +52,4 @@ class ManagerPlaces {
     class func Shared() -> ManagerPlaces {
         return sharedManagerPlaces
     }
-    
-    
 }

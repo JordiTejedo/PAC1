@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "NewPlaceViewController.Create(_:):NewPlaceViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+            <PersistentString
+               value = "ManagerPlaces.Shared()">
+            </PersistentString>
+            <PersistentString
+               value = "currentLocation.coordinate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlacesTableViewController.prepare(for:sender:):PlacesTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "segue.destination">
+            </PersistentString>
+            <PersistentString
+               value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlaceDetailsViewController.Update(_:):PlaceDetailsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "type.selectedRow(inComponent: 1)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlacesMapViewController.loadAnnotations():PlacesMapViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.mapView.annotations">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlacesTableViewController.tableView(_:didSelectRowAt:):PlacesTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

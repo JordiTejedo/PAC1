@@ -22,6 +22,8 @@ class PlacesMapViewController : UIViewController, PlacesMapDelegate, MKMapViewDe
         
     var locationManager = CLLocationManager()
     
+    var activityIndicator = UIActivityIndicatorView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,7 +31,9 @@ class PlacesMapViewController : UIViewController, PlacesMapDelegate, MKMapViewDe
         
         mapView.showsUserLocation = true
         mapView.delegate = self
-
+        
+        setupActivityIndicator()
+        
         loadAnnotations()
     }
     
@@ -41,14 +45,27 @@ class PlacesMapViewController : UIViewController, PlacesMapDelegate, MKMapViewDe
     func loadAnnotations() {
         self.mapView.removeAnnotations(self.mapView.annotations)
         
-        ManagerPlaces.Shared().places.forEach { place in
-            let annotation = MyMKPointAnnotation()
-            annotation.id = place.id
-            annotation.title = place.name
-            annotation.subtitle = place.description
-            annotation.coordinate = place.location
-            self.mapView.addAnnotation(annotation)
+        activityIndicator.startAnimating()
+        self.view.isUserInteractionEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            ManagerPlaces.Shared().places.forEach { place in
+                let annotation = MyMKPointAnnotation()
+                annotation.id = place.id
+                annotation.title = place.name
+                annotation.subtitle = place.description
+                annotation.coordinate = place.location
+                self.mapView.addAnnotation(annotation)
+            }
+            self.activityIndicator.stopAnimating()
+            self.view.isUserInteractionEnabled = true
         }
+    }
+    
+    func setupActivityIndicator() {
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        view.addSubview(activityIndicator)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

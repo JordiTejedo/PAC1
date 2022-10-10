@@ -14,6 +14,8 @@ protocol PlacesTableDelegate {
 
 class PlacesTableViewController: UITableViewController, PlacesTableDelegate {
     
+    var activityIndicator = UIActivityIndicatorView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,7 +23,7 @@ class PlacesTableViewController: UITableViewController, PlacesTableDelegate {
         view.delegate = self
         view.dataSource = self
         
-        // Do any additional setup after loading the view, typically from a nib.
+        setupActivityIndicator()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,7 +32,20 @@ class PlacesTableViewController: UITableViewController, PlacesTableDelegate {
     }
     
     func loadTable() {
-        self.tableView.reloadData()
+        activityIndicator.startAnimating()
+        self.view.isUserInteractionEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.view.isUserInteractionEnabled = true
+        }
+    }
+    
+    func setupActivityIndicator() {
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.style = .large
+        view.addSubview(activityIndicator)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
