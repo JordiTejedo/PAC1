@@ -223,6 +223,7 @@
                         <outlet property="desc" destination="5hw-w6-I5a" id="oLQ-rL-MRc"/>
                         <outlet property="image" destination="CP5-2X-8vM" id="8ad-An-DMR"/>
                         <outlet property="name" destination="F7e-LC-oSa" id="ud4-oM-Wv7"/>
+                        <outlet property="scrollView" destination="QbL-18-hu9" id="ndu-lV-UEP"/>
                         <outlet property="type" destination="MIG-fa-XCH" id="vVj-xA-P9g"/>
                     </connections>
                 </viewController>
@@ -444,6 +445,7 @@
                         <outlet property="desc" destination="j3E-f5-qI8" id="Vgc-91-Ado"/>
                         <outlet property="image" destination="If6-4Y-BGE" id="dPN-9A-Ovi"/>
                         <outlet property="name" destination="5VN-HG-z80" id="DMK-Al-RGz"/>
+                        <outlet property="scrollView" destination="En3-Mb-5s5" id="c4V-Xy-sEK"/>
                         <outlet property="type" destination="TJO-CW-4yu" id="qCD-Fz-pRH"/>
                     </connections>
                 </viewController>

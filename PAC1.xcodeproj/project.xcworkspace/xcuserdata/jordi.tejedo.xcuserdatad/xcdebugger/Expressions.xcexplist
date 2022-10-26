@@ -6,13 +6,13 @@
          contextName = "NewPlaceViewController.Create(_:):NewPlaceViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "">
+               value = "ManagerLocation().GetLocation()">
+            </PersistentString>
+            <PersistentString
+               value = "ManagerLocation.shared().GetLocation()">
             </PersistentString>
             <PersistentString
                value = "ManagerPlaces.Shared()">
-            </PersistentString>
-            <PersistentString
-               value = "currentLocation.coordinate">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

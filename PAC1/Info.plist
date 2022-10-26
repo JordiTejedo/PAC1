@@ -17,7 +17,9 @@
 	<array>
 		<string>MKDirectionsModePedestrian</string>
 	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app would like to use tour location.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 </dict>
 </plist>

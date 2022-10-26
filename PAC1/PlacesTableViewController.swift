@@ -8,11 +8,7 @@
 import Foundation
 import UIKit
 
-protocol PlacesTableDelegate {
-    func loadTable()
-}
-
-class PlacesTableViewController: UITableViewController, PlacesTableDelegate {
+class PlacesTableViewController: UITableViewController, ManagerPlacesObserver {
     
     var activityIndicator = UIActivityIndicatorView()
     
@@ -24,21 +20,8 @@ class PlacesTableViewController: UITableViewController, PlacesTableDelegate {
         view.dataSource = self
         
         setupActivityIndicator()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        loadTable()
-    }
-    
-    func loadTable() {
-        activityIndicator.startAnimating()
-        self.view.isUserInteractionEnabled = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.tableView.reloadData()
-            self.activityIndicator.stopAnimating()
-            self.view.isUserInteractionEnabled = true
-        }
+        
+        ManagerPlaces.shared().addObserver(object:self)
     }
     
     func setupActivityIndicator() {
@@ -52,21 +35,29 @@ class PlacesTableViewController: UITableViewController, PlacesTableDelegate {
         if (segue.identifier == "fromPlacesTableToPlaceDetails") {
             let placeDetailsViewController = segue.destination as! PlaceDetailsViewController
             placeDetailsViewController.id = sender as! String
-            placeDetailsViewController.placesTableDelegate = self
-        } else if (segue.identifier == "fromPlacesTableToNewPlace") {
-            let newPlaceViewController = segue.destination as! NewPlaceViewController
-            newPlaceViewController.placesTableDelegate = self
+        }
+    }
+    
+    func onPlacesChange() {
+        activityIndicator.startAnimating()
+        self.view.isUserInteractionEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            /*let view: UITableView = (self.view as? UITableView)!;
+            view.reloadData()*/
+            self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.view.isUserInteractionEnabled = true
         }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ManagerPlaces.Shared().places.count;
+        return ManagerPlaces.shared().places.count;
     }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1;
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath:IndexPath) {
-        self.performSegue(withIdentifier: "fromPlacesTableToPlaceDetails", sender: ManagerPlaces.Shared().getItemAt(index: indexPath.row).id)
+        self.performSegue(withIdentifier: "fromPlacesTableToPlaceDetails", sender: ManagerPlaces.shared().getItemAt(index: indexPath.row).id)
     }
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 70;
@@ -74,10 +65,10 @@ class PlacesTableViewController: UITableViewController, PlacesTableDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell:LocationCell = self.tableView.dequeueReusableCell(withIdentifier: "locationCell") as! LocationCell
                 
-        if (ManagerPlaces.Shared().places[indexPath.row].image != nil) {
-            cell.img.image = UIImage(data: ManagerPlaces.Shared().places[indexPath.row].image!)
+        if (ManagerPlaces.shared().places[indexPath.row].image != nil) {
+            cell.img.image = UIImage(data: ManagerPlaces.shared().places[indexPath.row].image!)
         }
-        cell.name.text = ManagerPlaces.Shared().places[indexPath.row].name
+        cell.name.text = ManagerPlaces.shared().places[indexPath.row].name
         
         return cell
     }

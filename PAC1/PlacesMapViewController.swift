@@ -8,15 +8,11 @@
 import UIKit
 import MapKit
 
-protocol PlacesMapDelegate {
-    func loadAnnotations()
-}
-
 class MyMKPointAnnotation: MKPointAnnotation {
     var id: String = ""
 }
 
-class PlacesMapViewController : UIViewController, PlacesMapDelegate, MKMapViewDelegate {
+class PlacesMapViewController : UIViewController, MKMapViewDelegate, ManagerPlacesObserver {
     
     @IBOutlet weak var mapView: MKMapView!
         
@@ -35,11 +31,8 @@ class PlacesMapViewController : UIViewController, PlacesMapDelegate, MKMapViewDe
         setupActivityIndicator()
         
         loadAnnotations()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        loadAnnotations()
+        
+        ManagerPlaces.shared().addObserver(object:self)
     }
     
     func loadAnnotations() {
@@ -48,7 +41,7 @@ class PlacesMapViewController : UIViewController, PlacesMapDelegate, MKMapViewDe
         activityIndicator.startAnimating()
         self.view.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            ManagerPlaces.Shared().places.forEach { place in
+            ManagerPlaces.shared().places.forEach { place in
                 let annotation = MyMKPointAnnotation()
                 annotation.id = place.id
                 annotation.title = place.name
@@ -72,11 +65,11 @@ class PlacesMapViewController : UIViewController, PlacesMapDelegate, MKMapViewDe
         if (segue.identifier == "fromPlacesMapToPlaceDetails") {
             let placeDetailsViewController = segue.destination as! PlaceDetailsViewController
             placeDetailsViewController.id = sender as! String
-            placeDetailsViewController.placesMapDelegate = self
-        } else if (segue.identifier == "fromPlacesMapToNewPlace") {
-            let newPlaceViewController = segue.destination as! NewPlaceViewController
-            newPlaceViewController.placesMapDelegate = self
         }
+    }
+    
+    func onPlacesChange() {
+        loadAnnotations()
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {

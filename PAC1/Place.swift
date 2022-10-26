@@ -8,13 +8,13 @@
 import Foundation
 import MapKit
 
-enum PlacesTypes: String, CaseIterable
+enum PlacesTypes: String, CaseIterable, Codable
 {
     case GenericPlace = "Generic"
     case TouristicPlace = "Touristic"
 }
 
-class Place {
+class Place: Codable {
     var id: String = ""
     var type: PlacesTypes = .GenericPlace
     var name: String = ""
@@ -55,22 +55,23 @@ class Place {
     
     enum CodingKeys: String, CodingKey {
         case id
-        case type
         case name
+        case type
         case description
-        case location
-        case image
+        case latitude
+        case longitude
     }
     
     func decode(from decoder: Decoder) throws
     {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let container = try decoder.container(keyedBy:CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
-        //type = try container.decode(PlacesTypes.self, forKey: .type)
+        type = try container.decode(PlacesTypes.self, forKey: .type)
         name = try container.decode(String.self, forKey: .name)
-        description = try container.decode(String.self, forKey: .description)
-        //location = try container.decode(CLLocationCoordinate2D.self, forKey: .location)
-        image = try container.decode(Data.self, forKey: .image)
+        description = try container.decode(String.self, forKey:.description)
+        let latitude = try container.decode(Double.self, forKey:.latitude)
+        let longitude = try container.decode(Double.self, forKey:.longitude)
+        location = CLLocationCoordinate2D(latitude: latitude,longitude: longitude)
     }
     
     required convenience init(from decoder: Decoder) throws {
@@ -79,12 +80,14 @@ class Place {
     }
     
     func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy:CodingKeys.self)
         try container.encode(id, forKey: .id)
-        //try container.encode(type, forKey: .type)
+        // Repetir para el resto de propiedades.
+        try container.encode(type.rawValue, forKey: .type)
         try container.encode(name, forKey: .name)
         try container.encode(description, forKey: .description)
-        //try container.encode(location, forKey: .location)
-        try container.encode(image, forKey: .image)
+        // Para la location, grabamos sus componentes latitud y longitud por separado.
+        try container.encode(location.latitude, forKey:.latitude)
+        try container.encode(location.longitude, forKey:.longitude)
     }
 }

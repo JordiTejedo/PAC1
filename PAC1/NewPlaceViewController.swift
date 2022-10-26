@@ -8,19 +8,22 @@
 import UIKit
 import CoreLocation
 
-class NewPlaceViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class NewPlaceViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate, UITextFieldDelegate  {
     
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var type: UIPickerView!
     @IBOutlet weak var desc: UITextView!
     @IBOutlet weak var image: UIImageView!
     
-    var placesTableDelegate : PlacesTableDelegate? = nil
-    var placesMapDelegate : PlacesMapDelegate? = nil
-    
     var locationManager = CLLocationManager()
     
     var imagePicker = UIImagePickerController()
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+
+    var keyboardHeight:CGFloat!
+    var activeField: UIView!
+    var lastOffset:CGPoint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,18 +49,25 @@ class NewPlaceViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(selectImage(_:)))
         image.isUserInteractionEnabled = true
         image.addGestureRecognizer(tapGestureRecognizer)
+        
+        // Soft keyboard Control
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector:#selector(hideKeyboard), name:UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(showKeyboard), name:UIResponder.keyboardWillShowNotification, object: nil)
+        name.delegate = self
+        desc.delegate = self
     }
     
     @IBAction func Create(_ sender: Any) {
-        let currentLocation: CLLocation! = locationManager.location
+        /*let currentLocation: CLLocation! = locationManager.location
+        ManagerPlaces.Shared().append(Place(type: PlacesTypes.allCases[type.selectedRow(inComponent: 0)], name: name.text!, description: desc.text, image_in: image.image?.pngData(), location: currentLocation.coordinate))*/
         
-        ManagerPlaces.Shared().append(Place(type: PlacesTypes.allCases[type.selectedRow(inComponent: 0)], name: name.text!, description: desc.text, image_in: image.image?.pngData(), location: currentLocation.coordinate))
+        ManagerPlaces.shared().append(Place(type: PlacesTypes.allCases[type.selectedRow(inComponent: 0)], name: name.text!, description: desc.text, image_in: image.image?.pngData(), location: ManagerLocation.shared().GetLocation()))
         
-        if (placesTableDelegate != nil) {
-            self.placesTableDelegate?.loadTable()
-        } else if (placesMapDelegate != nil){
-            self.placesMapDelegate?.loadAnnotations()
-        }
+        ManagerPlaces.shared().updateObservers()
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -80,6 +90,7 @@ class NewPlaceViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
         self.image.image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
     }
     
+    // Picker delegates
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -90,5 +101,66 @@ class NewPlaceViewController: UIViewController, UIPickerViewDelegate, UIPickerVi
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return PlacesTypes.allCases[row].rawValue
+    }
+    
+    // Text view delegates
+    @objc func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        activeField = textView
+        lastOffset = self.scrollView.contentOffset
+        return true
+    }
+    
+    @objc func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        if(activeField==textView) {
+            activeField?.resignFirstResponder()
+            activeField = nil
+        }
+        return true
+    }
+    
+    //Text field delegates
+    @objc func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        activeField = textField
+        lastOffset = self.scrollView.contentOffset
+        return true
+    }
+    
+    @objc func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if(activeField==textField) {
+            activeField?.resignFirstResponder()
+            activeField = nil
+        }
+        return true
+    }
+    
+    @objc func showKeyboard(notification: Notification) {
+        if(activeField != nil){
+            let userInfo = notification.userInfo!
+            let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+            let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+            keyboardHeight = keyboardViewEndFrame.size.height
+            let distanceToBottom = self.scrollView.frame.size.height - (activeField?.frame.origin.y)! - (activeField?.frame.size.height)!
+            let collapseSpace = keyboardHeight - distanceToBottom
+            if collapseSpace > 0 {
+                self.scrollView.setContentOffset(CGPoint(x: self.lastOffset.x, y: collapseSpace + 10), animated: false)
+                //self.constraintHeight.constant += self.keyboardHeight
+            }
+            else{
+                keyboardHeight = nil
+            }
+        }
+    }
+    
+    // Hide soft keyboard
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    @objc func hideKeyboard(notification: Notification) {
+        if (keyboardHeight != nil) {
+            self.scrollView.contentOffset = CGPoint(x:self.lastOffset.x, y: self.lastOffset.y)
+            //self.constraintHeight.constant -= self.keyboardHeight
+        }
+        keyboardHeight = nil
     }
 }

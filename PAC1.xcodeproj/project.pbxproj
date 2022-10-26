@@ -16,9 +16,11 @@
 		D50AA71F28DDC91C004C2968 /* PAC1UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50AA71E28DDC91C004C2968 /* PAC1UITestsLaunchTests.swift */; };
 		D50AA72C28DDFF29004C2968 /* PlaceDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50AA72B28DDFF29004C2968 /* PlaceDetailsViewController.swift */; };
 		D530EC4028E4837E00150A66 /* NewPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D530EC3F28E4837E00150A66 /* NewPlaceViewController.swift */; };
+		D5452FB128FED61C00E72618 /* ManagerLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5452FB028FED61C00E72618 /* ManagerLocation.swift */; };
 		D547D80528E33CAB0012ADE4 /* PlacesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D547D80428E33CAB0012ADE4 /* PlacesTableViewController.swift */; };
 		D547D80728E33DC10012ADE4 /* PlacesMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D547D80628E33DC10012ADE4 /* PlacesMapViewController.swift */; };
 		D5867E9F28F06F6900DDB383 /* LocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5867E9E28F06F6900DDB383 /* LocationCell.swift */; };
+		D58EBFB12909402400C653E3 /* FileSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58EBFB02909402400C653E3 /* FileSystem.swift */; };
 		D5C492E728DE0B04007223D0 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C492E628DE0B04007223D0 /* Place.swift */; };
 		D5C492E928DE0C92007223D0 /* PlaceTourist.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C492E828DE0C92007223D0 /* PlaceTourist.swift */; };
 		D5C492EB28DE0D03007223D0 /* ManagerPlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C492EA28DE0D03007223D0 /* ManagerPlaces.swift */; };
@@ -55,9 +57,11 @@
 		D50AA71E28DDC91C004C2968 /* PAC1UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PAC1UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D50AA72B28DDFF29004C2968 /* PlaceDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsViewController.swift; sourceTree = "<group>"; };
 		D530EC3F28E4837E00150A66 /* NewPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPlaceViewController.swift; sourceTree = "<group>"; };
+		D5452FB028FED61C00E72618 /* ManagerLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagerLocation.swift; sourceTree = "<group>"; };
 		D547D80428E33CAB0012ADE4 /* PlacesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewController.swift; sourceTree = "<group>"; };
 		D547D80628E33DC10012ADE4 /* PlacesMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesMapViewController.swift; sourceTree = "<group>"; };
 		D5867E9E28F06F6900DDB383 /* LocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCell.swift; sourceTree = "<group>"; };
+		D58EBFB02909402400C653E3 /* FileSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystem.swift; sourceTree = "<group>"; };
 		D5C492E628DE0B04007223D0 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		D5C492E828DE0C92007223D0 /* PlaceTourist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceTourist.swift; sourceTree = "<group>"; };
 		D5C492EA28DE0D03007223D0 /* ManagerPlaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerPlaces.swift; sourceTree = "<group>"; };
@@ -124,6 +128,8 @@
 				D547D80628E33DC10012ADE4 /* PlacesMapViewController.swift */,
 				D530EC3F28E4837E00150A66 /* NewPlaceViewController.swift */,
 				D5867E9E28F06F6900DDB383 /* LocationCell.swift */,
+				D5452FB028FED61C00E72618 /* ManagerLocation.swift */,
+				D58EBFB02909402400C653E3 /* FileSystem.swift */,
 			);
 			path = PAC1;
 			sourceTree = "<group>";
@@ -283,7 +289,9 @@
 				D5C492EB28DE0D03007223D0 /* ManagerPlaces.swift in Sources */,
 				D5C492E728DE0B04007223D0 /* Place.swift in Sources */,
 				D5867E9F28F06F6900DDB383 /* LocationCell.swift in Sources */,
+				D58EBFB12909402400C653E3 /* FileSystem.swift in Sources */,
 				D530EC4028E4837E00150A66 /* NewPlaceViewController.swift in Sources */,
+				D5452FB128FED61C00E72618 /* ManagerLocation.swift in Sources */,
 				D547D80728E33DC10012ADE4 /* PlacesMapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -464,6 +472,8 @@
 				DEVELOPMENT_TEAM = K88MHC5VZ2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PAC1/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app would like to user your location.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app would like to use your location.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -492,6 +502,8 @@
 				DEVELOPMENT_TEAM = K88MHC5VZ2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PAC1/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app would like to user your location.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app would like to use your location.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        let managerPlaces = ManagerPlaces.Shared()
+        let managerPlaces = ManagerPlaces.shared()
         
         managerPlaces.append(Place(type: PlacesTypes.TouristicPlace, name: "Sagrada Família", description: "Basílica católica de Barcelona, diseñada por el arquitecto Antoni Gaudí.", image_in: UIImage(named:"SagradaFamilia.jpg")?.pngData(), location: CLLocationCoordinate2D(latitude: 41.4036299, longitude: 2.1743558)))
         managerPlaces.append(Place(type: PlacesTypes.GenericPlace, name: "Can Solé", description: "Surtidos de marisco, paellas y jarras de sangría en un restaurante sencillo de toda la vida.", image_in: UIImage(named:"CanSole.jpg")?.pngData(), location: CLLocationCoordinate2D(latitude: 41.3788768, longitude: 2.1883984)))
